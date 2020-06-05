@@ -111,6 +111,11 @@ namespace TicTacToe.Game
 
             return default;
         }
+        
+        public char OppositePlayer(char currentPlayer)
+        {
+            return currentPlayer == 'x' ? 'o' : 'x';
+        }
 
         private bool CheckLine(TTTCoord startCoord, TTTCoord endCoord)
         {
@@ -138,11 +143,6 @@ namespace TicTacToe.Game
             int val = (pointA + pointB) / 2;
 
             return val < 0 ? 0 : val;
-        }
-
-        private char OppositePlayer(char currentPlayer)
-        {
-            return currentPlayer == 'x' ? 'o' : 'x';
         }
     }
 }

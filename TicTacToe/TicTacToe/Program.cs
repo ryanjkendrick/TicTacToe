@@ -96,5 +96,54 @@ namespace TicTacToe
 
             Console.WriteLine("Game saved.");
         }
+        
+        private static void PlayRandomGames(int numberOfGames)
+        {
+            char startPlayer = ‘x’;
+        
+            for (int i = 0; i < numberOfGames; i++)
+            {
+                TTTGame game = new TTTGame();
+            TTTModel model = new TTTModel();
+            List<TTTModel> models = new List<TTTModel>();
+            char player = startPlayer;
+
+            do
+            {
+                Console.WriteLine("Vertical coordinate:");
+                string vert = Console.ReadLine();
+
+                Console.WriteLine("Horizontal coordinate:");
+                string hori = Console.ReadLine();
+
+                model = game.PlayMove(player, new TTTCoord(Convert.ToInt32(vert) - 1, Convert.ToInt32(hori) - 1));
+                player = game.Turn;
+
+                models.Add(model);
+
+                ShowBoard(game.Board);
+
+                Console.WriteLine();
+            } while (model.Winnner == default);
+            
+            ShowBoard(game.Board);
+
+            char result = model.Winnner;
+
+            if (result != default)
+                Console.WriteLine(result + " wins! " + game.MovesLeft + " moves left.");
+            else
+                Console.WriteLine("No one wins.");
+
+            Console.WriteLine("\nSaving game to file...\n");
+
+            TSVRecorder tsvRecorder = new TSVRecorder();
+            tsvRecorder.SaveGameToCSV(models.ToArray());
+
+            Console.WriteLine("Game saved.");
+            
+            startPlayer = game.OppositePlayer(player);
+            }
+        }
     }
 }
