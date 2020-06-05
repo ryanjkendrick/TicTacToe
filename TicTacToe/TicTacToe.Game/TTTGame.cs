@@ -45,9 +45,9 @@ namespace TicTacToe.Game
                     Player = player,
                     MovesLeft = MovesLeft,
                     Move = coord,
-                    Board = OneDimBoard,
+                    Board = null,
                     ValidMove = false,
-                    Winnner = this.MovesLeft < 5 ? CheckBoard() : default
+                    Winnner = default
                 };
             }
                 
@@ -57,12 +57,11 @@ namespace TicTacToe.Game
                 Board[coord.X, coord.Y] = player;
 
                 Turn = OppositePlayer(player);
-                --MovesLeft;
 
                 return new TTTModel
                 {
                     Player = player,
-                    MovesLeft = MovesLeft,
+                    MovesLeft = --MovesLeft,
                     Move = coord,
                     Board = OneDimBoard,
                     ValidMove = true,
@@ -75,9 +74,9 @@ namespace TicTacToe.Game
                 Player = player,
                 MovesLeft = MovesLeft,
                 Move = coord,
-                Board = OneDimBoard,
+                Board = null,
                 ValidMove = false,
-                Winnner = this.MovesLeft < 5 ? CheckBoard() : default
+                Winnner = default
             };
         }
 

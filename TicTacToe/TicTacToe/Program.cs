@@ -6,15 +6,16 @@ using TicTacToe.Game.DataStructures;
 
 namespace TicTacToe
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Tic Tac Toe!");
 
             Console.WriteLine("\nWhat would you like to do?\n");
 
             Console.WriteLine("1. Play the game");
+            Console.WriteLine("1. Play 5000 random games");
             Console.WriteLine("2. Quit");
 
             Console.WriteLine();
@@ -25,7 +26,12 @@ namespace TicTacToe
                 case "1":
                     PlayGame();
                     break;
+
                 case "2":
+                    PlayRandomGames(5000);
+                    break;
+
+                case "3":
                     Environment.Exit(0);
                     break;
 
@@ -96,53 +102,48 @@ namespace TicTacToe
 
             Console.WriteLine("Game saved.");
         }
-        
+
         private static void PlayRandomGames(int numberOfGames)
         {
-            char startPlayer = ‘x’;
-        
+            char startPlayer = 'x';
+            Random random = new Random();
+
             for (int i = 0; i < numberOfGames; i++)
             {
                 TTTGame game = new TTTGame();
-            TTTModel model = new TTTModel();
-            List<TTTModel> models = new List<TTTModel>();
-            char player = startPlayer;
+                TTTModel model = new TTTModel();
+                List<TTTModel> models = new List<TTTModel>();
+                char player = startPlayer;
 
-            do
-            {
-                Console.WriteLine("Vertical coordinate:");
-                string vert = Console.ReadLine();
+                do
+                {
+                    do
+                    {
+                        model = game.PlayMove(player, new TTTCoord(random.Next(3), random.Next(3)));
+                    } while (!model.ValidMove);
 
-                Console.WriteLine("Horizontal coordinate:");
-                string hori = Console.ReadLine();
+                    player = game.Turn;
 
-                model = game.PlayMove(player, new TTTCoord(Convert.ToInt32(vert) - 1, Convert.ToInt32(hori) - 1));
-                player = game.Turn;
-
-                models.Add(model);
+                    models.Add(model);
+                } while (model.Winnner == default && game.MovesLeft > 0);
 
                 ShowBoard(game.Board);
 
-                Console.WriteLine();
-            } while (model.Winnner == default);
-            
-            ShowBoard(game.Board);
+                char result = model.Winnner;
 
-            char result = model.Winnner;
+                if (result != default)
+                    Console.WriteLine(result + " wins! " + game.MovesLeft + " moves left.");
+                else
+                    Console.WriteLine("No one wins.");
 
-            if (result != default)
-                Console.WriteLine(result + " wins! " + game.MovesLeft + " moves left.");
-            else
-                Console.WriteLine("No one wins.");
+                Console.WriteLine("\nSaving game to file...\n");
 
-            Console.WriteLine("\nSaving game to file...\n");
+                TSVRecorder tsvRecorder = new TSVRecorder();
+                tsvRecorder.SaveGameToCSV(models.ToArray());
 
-            TSVRecorder tsvRecorder = new TSVRecorder();
-            tsvRecorder.SaveGameToCSV(models.ToArray());
+                Console.WriteLine($"Game {i + 1} saved.");
 
-            Console.WriteLine("Game saved.");
-            
-            startPlayer = game.OppositePlayer(player);
+                startPlayer = game.OppositePlayer(player);
             }
         }
     }
