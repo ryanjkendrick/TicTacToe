@@ -15,8 +15,8 @@ namespace TicTacToe
             Console.WriteLine("\nWhat would you like to do?\n");
 
             Console.WriteLine("1. Play the game");
-            Console.WriteLine("1. Play 5000 random games");
-            Console.WriteLine("2. Quit");
+            Console.WriteLine("2. Play 5000 random games");
+            Console.WriteLine("3. Quit");
 
             Console.WriteLine();
             string input = Console.ReadLine();
@@ -72,13 +72,20 @@ namespace TicTacToe
 
             do
             {
-                Console.WriteLine("Vertical coordinate:");
-                string vert = Console.ReadLine();
+                TTTCoord move;
 
-                Console.WriteLine("Horizontal coordinate:");
-                string hori = Console.ReadLine();
+                do
+                {
+                    Console.WriteLine("Vertical coordinate:");
+                    string vert = Console.ReadLine();
 
-                model = game.PlayMove(player, new TTTCoord(Convert.ToInt32(vert) - 1, Convert.ToInt32(hori) - 1));
+                    Console.WriteLine("Horizontal coordinate:");
+                    string hori = Console.ReadLine();
+
+                    move = new TTTCoord(Convert.ToInt32(vert) - 1, Convert.ToInt32(hori) - 1);
+                } while (!game.CheckMove(player, move));
+
+                model = game.PlayMove(player, move);
                 player = game.Turn;
 
                 models.Add(model);
@@ -117,11 +124,14 @@ namespace TicTacToe
 
                 do
                 {
+                    TTTCoord move;
+
                     do
                     {
-                        model = game.PlayMove(player, new TTTCoord(random.Next(3), random.Next(3)));
-                    } while (!model.ValidMove);
+                        move = new TTTCoord(random.Next(3), random.Next(3));
+                    } while (!game.CheckMove(player, move));
 
+                    model = game.PlayMove(player, move);
                     player = game.Turn;
 
                     models.Add(model);

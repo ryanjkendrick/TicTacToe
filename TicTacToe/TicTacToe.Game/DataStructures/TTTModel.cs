@@ -6,7 +6,6 @@
         public int MovesLeft { get; set; }
         public TTTCoord Move { get; set; }
         public double[] Board { get; set; }
-        public bool ValidMove { get; set; }
         public char Winnner { get; set; }
 
         public TTTModel()

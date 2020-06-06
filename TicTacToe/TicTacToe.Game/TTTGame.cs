@@ -44,22 +44,16 @@ namespace TicTacToe.Game
             MovesLeft = 9;
         }
 
-        public TTTModel PlayMove(char player, TTTCoord coord)
+        public bool CheckMove(char player, TTTCoord coord)
         {
             if (Turn != default && player != Turn)
-            {
-                return new TTTModel
-                {
-                    Player = player,
-                    MovesLeft = MovesLeft,
-                    Move = coord,
-                    Board = null,
-                    ValidMove = false,
-                    Winnner = default
-                };
-            }
-                
+                return false;
 
+            return Board[coord.X, coord.Y] == default;
+        }
+
+        public TTTModel PlayMove(char player, TTTCoord coord)
+        {
             if (Board[coord.X, coord.Y] == default)
             {
                 Board[coord.X, coord.Y] = player;
@@ -72,20 +66,11 @@ namespace TicTacToe.Game
                     MovesLeft = --MovesLeft,
                     Move = coord,
                     Board = BoardAsDoubleArray,
-                    ValidMove = true,
                     Winnner = this.MovesLeft < 5 ? CheckBoard() : default
                 };
             }
 
-            return new TTTModel
-            {
-                Player = player,
-                MovesLeft = MovesLeft,
-                Move = coord,
-                Board = null,
-                ValidMove = false,
-                Winnner = default
-            };
+            return null;
         }
 
         public char CheckBoard()

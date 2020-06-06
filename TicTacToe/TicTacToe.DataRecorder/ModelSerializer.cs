@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 using TicTacToe.DataRecorder.Models;
 using TicTacToe.Game.DataStructures;
 
@@ -22,9 +24,15 @@ namespace TicTacToe.DataRecorder
 
         public static string SerializeGame(TTTModel[] moves)
         {
-            TrainingModel trainingModel = new TrainingModel(moves);
+            TrainingModel[] trainingModels = moves.Select(x => new TrainingModel(x)).ToArray();
+            StringBuilder sb = new StringBuilder();
 
-            return $"{trainingModel.FirstPlayer}    {trainingModel.MovesLeft}   {string.Join(",", trainingModel.Moves)} {trainingModel.Winnner}";
+            foreach (var trainingModel in trainingModels)
+            {
+                sb.AppendLine($"{trainingModel.MoveX}    {trainingModel.MoveY}   {string.Join(",", trainingModel.Board)} {trainingModel.Winnner}");
+            }
+
+            return sb.ToString();
         }
     }
 }
