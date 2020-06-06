@@ -1,6 +1,4 @@
-﻿
-
-using TicTacToe.Game.DataStructures;
+﻿using TicTacToe.Game.DataStructures;
 
 namespace TicTacToe.Game
 {
@@ -10,18 +8,28 @@ namespace TicTacToe.Game
         public char Turn { get; private set; }
         public char[,] Board { get; private set; }
 
-        public char[] OneDimBoard
+        public double[] BoardAsDoubleArray
         {
             get
             {
                 int i = 0;
-                char[] oneDim = new char[9];
+                double[] oneDim = new double[9];
 
                 for (int x = 0; x < 3; x++)
                 {
                     for (int y = 0; y < 3; y++)
                     {
-                        oneDim[i++] = Board[x, y];
+                        char val = Board[x, y];
+                        double numVal = 0;
+
+                        if (val == 'x')
+                            numVal = 1;
+                        else if (val == 'o')
+                            numVal = -1;
+                        else
+                            numVal = 0.01;
+
+                        oneDim[i++] = numVal;
                     }
                 }
 
@@ -63,7 +71,7 @@ namespace TicTacToe.Game
                     Player = player,
                     MovesLeft = --MovesLeft,
                     Move = coord,
-                    Board = OneDimBoard,
+                    Board = BoardAsDoubleArray,
                     ValidMove = true,
                     Winnner = this.MovesLeft < 5 ? CheckBoard() : default
                 };
