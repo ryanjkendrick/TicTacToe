@@ -29,6 +29,12 @@ namespace TicTacToe
 
                 case "2":
                     PlayRandomGames(5000);
+
+                    Console.WriteLine("\nClearing down training file...");
+                    TSVRecorder tsvRecorder = new TSVRecorder();
+                    tsvRecorder.RemoveEmptyLines();
+                    Console.WriteLine("\nCleared down training file.");
+
                     break;
 
                 case "3":

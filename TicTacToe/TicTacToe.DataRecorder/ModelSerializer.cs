@@ -29,7 +29,7 @@ namespace TicTacToe.DataRecorder
 
             foreach (var trainingModel in trainingModels)
             {
-                sb.AppendLine($"{trainingModel.MoveX}    {trainingModel.MoveY}   {string.Join(",", trainingModel.Board)} {trainingModel.Winnner}");
+                sb.AppendLine($"{trainingModel.MoveX}\t{trainingModel.MoveY}\t{string.Join(",", trainingModel.Board)}\t{trainingModel.Winnner}");
             }
 
             return sb.ToString();

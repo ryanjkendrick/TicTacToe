@@ -22,5 +22,28 @@ namespace TicTacToe.DataRecorder
                 file.WriteLine(gameVal);
             }
         }
+
+        public void RemoveEmptyLines()
+        {
+            var tempFileName = Path.GetTempFileName();
+            try
+            {
+                using (var streamReader = new StreamReader(FILENAME))
+                using (var streamWriter = new StreamWriter(tempFileName))
+                {
+                    string line;
+                    while ((line = streamReader.ReadLine()) != null)
+                    {
+                        if (!string.IsNullOrWhiteSpace(line))
+                            streamWriter.WriteLine(line);
+                    }
+                }
+                File.Copy(tempFileName, FILENAME, true);
+            }
+            finally
+            {
+                File.Delete(tempFileName);
+            }
+        }
     }
 }
