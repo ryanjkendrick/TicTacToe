@@ -5,9 +5,11 @@ namespace TicTacToe.DataRecorder.Models
 {
     public class TrainingModel
     {
-        public int MoveX { get; set; }
-        public int MoveY { get; set; }
-        public double[] Board { get; set; }
+        public int Move { get; set; }
+        //public int MoveX { get; set; }
+        //public int MoveY { get; set; }
+        public double Board { get; set; }
+        //public double[] Board { get; set; }
         public double Winnner { get; set; }
 
         public TrainingModel()
@@ -16,8 +18,9 @@ namespace TicTacToe.DataRecorder.Models
 
         public TrainingModel(TTTModel model)
         {
-            MoveX = model.Move.X;
-            MoveY = model.Move.Y;
+            Move = 1 + model.Move.X + model.Move.Y;
+            //MoveX = model.Move.X;
+            //MoveY = model.Move.Y;
             Board = model.Board;
             Winnner = ChangeCharPlayerToDouble(model.Winnner);
         }

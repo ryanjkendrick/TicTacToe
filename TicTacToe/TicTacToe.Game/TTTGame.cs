@@ -8,6 +8,35 @@ namespace TicTacToe.Game
         public char Turn { get; private set; }
         public char[,] Board { get; private set; }
 
+        public double BoardAsDouble
+        {
+            get
+            {
+                int i = 0;
+                double retBoard = 0;
+
+                for (int x = 0; x < 3; x++)
+                {
+                    for (int y = 0; y < 3; y++)
+                    {
+                        char val = Board[x, y];
+                        double numVal = 0;
+
+                        if (val == 'x')
+                            numVal = 1;
+                        else if (val == 'o')
+                            numVal = -1;
+                        else
+                            numVal = 0.01;
+
+                        retBoard += (1 + x + y) * numVal * ++i;
+                    }
+                }
+
+                return retBoard;
+            }
+        }
+
         public double[] BoardAsDoubleArray
         {
             get
@@ -46,7 +75,9 @@ namespace TicTacToe.Game
 
         public bool CheckMove(char player, TTTCoord coord)
         {
-            if (Turn != default && player != Turn)
+            bool negativeNum = coord.X < 0 || coord.Y < 0;
+
+            if (negativeNum || Turn != default && player != Turn)
                 return false;
 
             return Board[coord.X, coord.Y] == default;
@@ -65,9 +96,36 @@ namespace TicTacToe.Game
                     Player = player,
                     MovesLeft = --MovesLeft,
                     Move = coord,
-                    Board = BoardAsDoubleArray,
+                    Board = BoardAsDouble,
                     Winnner = this.MovesLeft < 5 ? CheckBoard() : default
                 };
+            }
+
+            return null;
+        }
+
+        public TTTModel PlayMove1D(char player, int coord)
+        {
+            for (int x = 0; x < 3; x++)
+            {
+                for (int y = 0; y < 3; y++)
+                {
+                    if (coord == 1 + x + y && Board[x, y] == default)
+                    {
+                        Board[x, y] = player;
+
+                        Turn = OppositePlayer(player);
+
+                        return new TTTModel
+                        {
+                            Player = player,
+                            MovesLeft = --MovesLeft,
+                            Move = new TTTCoord(x, y),
+                            Board = BoardAsDouble,
+                            Winnner = this.MovesLeft < 5 ? CheckBoard() : default
+                        };
+                    }
+                }
             }
 
             return null;

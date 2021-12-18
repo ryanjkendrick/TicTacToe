@@ -15,11 +15,9 @@ namespace TicTacToe.DataRecorder
             List<string> headers = new List<string>();
 
             foreach (PropertyInfo prop in trainingModel.GetType().GetProperties())
-            {
                 headers.Add(prop.Name);
-            }
 
-            return string.Join("    ", headers);
+            return string.Join("\t", headers);
         }
 
         public static string SerializeGame(TTTModel[] moves)
@@ -29,7 +27,9 @@ namespace TicTacToe.DataRecorder
 
             foreach (var trainingModel in trainingModels)
             {
-                sb.AppendLine($"{trainingModel.MoveX}\t{trainingModel.MoveY}\t{string.Join(",", trainingModel.Board)}\t{trainingModel.Winnner}");
+                sb.AppendLine($"{trainingModel.Move}\t{trainingModel.Board}\t{trainingModel.Winnner}");
+                //sb.AppendLine($"{trainingModel.MoveX}\t{trainingModel.MoveY}\t{trainingModel.Board}\t{trainingModel.Winnner}");
+                //sb.AppendLine($"{trainingModel.MoveX}\t{trainingModel.MoveY}\t{string.Join(",", trainingModel.Board)}\t{trainingModel.Winnner}");
             }
 
             return sb.ToString();

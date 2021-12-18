@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 using TicTacToe.Game.DataStructures;
 
@@ -26,6 +25,7 @@ namespace TicTacToe.DataRecorder
         public void RemoveEmptyLines()
         {
             var tempFileName = Path.GetTempFileName();
+
             try
             {
                 using (var streamReader = new StreamReader(FILENAME))
@@ -38,6 +38,7 @@ namespace TicTacToe.DataRecorder
                             streamWriter.WriteLine(line);
                     }
                 }
+
                 File.Copy(tempFileName, FILENAME, true);
             }
             finally
